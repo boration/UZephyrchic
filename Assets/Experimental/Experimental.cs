@@ -1,23 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Experimental : MonoBehaviour
 {
+    [SerializeField] private float speed = 20;
+    [SerializeField] private float range = 1;
+    private Vector2 _goal;
 
-    [SerializeField] private float speed = 5;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        //test 1
+        float speedDelta = speed * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, _goal, speedDelta);
+
+        if ((Vector2)transform.position == _goal)
+        {
+            _goal = ChooseNewGoal();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private Vector2 ChooseNewGoal()
     {
-        float deltaSpeed = speed * Time.deltaTime;
-        transform.Rotate(deltaSpeed,deltaSpeed,deltaSpeed);
+        return Random.insideUnitCircle * range;
     }
 }
